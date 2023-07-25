@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kub-train-dev
+  labels:
+    name: kub-train-dev
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kub-train-qa
+  labels:
+    name: kub-train-qa
+
