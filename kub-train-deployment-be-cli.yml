@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-cli-cont
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: be-cli-cont
+  template:
+    metadata:
+      labels:
+        app: be-cli-cont
+    spec:
+      containers:
+      - name: be-cli-cont
+        image: fradidock/kub-train-be-cli:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 4882
+          name: be-cli-cont
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-be-cli-svc
+spec:
+  selector:
+    app: be-cli-cont
+  ports:
+    - protocol: TCP
+      port: 4882
+      targetPort: 4882
+

@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  go-be-a-svc:
+    image: fradidock/kub-train-be-a:latest
+    ports: 
+      - 4880:4880
+
+  go-be-b-svc:
+    image: fradidock/kub-train-be-b:latest
+    ports: 
+      - 4881:4881
+
+  go-be-cli-svc:
+    image: fradidock/kub-train-be-cli:latest
+    ports: 
+      - 4882:4882
+    depends_on:
+      go-be-a-svc:
+        condition: service_started
+      go-be-b-svc:
+        condition: service_started 
+

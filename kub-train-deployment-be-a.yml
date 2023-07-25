@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-a-container
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: be-a-container
+  template:
+    metadata:
+      labels:
+        app: be-a-container
+    spec:
+      containers:
+      - name: be-a-container
+        image: fradidock/kub-train-be-a:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 4880
+          name: be-a-container
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-be-a-svc
+spec:
+  selector:
+    app: be-a-container
+  ports:
+    - protocol: TCP
+      port: 4880
+      targetPort: 4880       
+

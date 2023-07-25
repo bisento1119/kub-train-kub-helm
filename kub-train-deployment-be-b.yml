@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-b-container
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: be-b-container
+  template:
+    metadata:
+      labels:
+        app: be-b-container
+    spec:
+      containers:
+      - name: be-b-container
+        image: fradidock/kub-train-be-b:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 4881
+          name: be-b-container
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-be-b-svc
+spec:
+  selector:
+    app: be-b-container
+  ports:
+    - protocol: TCP
+      port: 4881
+      targetPort: 4881
+
